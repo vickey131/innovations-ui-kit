@@ -13,7 +13,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC2** Given I import only one component, when I build for production, then unused Kit components are excluded from the bundle (tree-shaking).
 
 ### US-02: Typed component props
-**As a** Frontend Developer, **I want** every public component to have fully typed props, **so that** I get autocomplete and compile-time errors instead of runtime surprises.
+As a Frontend Developer, I want every public component to have fully typed props, **so that** I get autocomplete and compile-time errors instead of runtime surprises.
 
 **Priority:** Must
 
@@ -22,7 +22,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given the Kit's source, when type checking runs in strict mode, then it passes with no `any` in public prop types.
 
 ### US-03: Browse components in Storybook
-**As a** Frontend Developer, **I want** a Storybook page for each component, **so that** I can find a component and see how to use it in under 15 minutes.
+As a Frontend Developer, I want a Storybook page for each component, **so that** I can find a component and see how to use it in under 15 minutes.
 
 **Priority:** Must
 
@@ -31,7 +31,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given an example, when I change a prop in the Controls panel, then the rendered component updates immediately.
 
 ### US-04: Review component states
-**As a** UI/UX Designer, **I want** to see each component in all its states (default, hover, focus, disabled, error), **so that** I can check the implementation against the design without running the app.
+As a UI/UX Designer, I want to see each component in all its states (default, hover, focus, disabled, error), **so that** I can check the implementation against the design without running the app.
 
 **Priority:** Must
 
@@ -40,7 +40,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given any component page, when I view it, then every state listed in the component's props has a matching story.
 
 ### US-05: Keyboard operation
-**As a** user of an application built with the Kit, **I want** interactive components to work with the keyboard alone, **so that** I can use the interface without a mouse.
+As a user of an application built with the Kit, I want interactive components to work with the keyboard alone, **so that** I can use the interface without a mouse.
 
 **Priority:** Must
 
@@ -51,7 +51,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given a modal is open, when I press Escape, then the modal closes and focus returns to the element that opened it.
 
 ### US-06: Screen reader support
-**As a** screen reader user, **I want** components to expose correct roles, names and states, **so that** I understand what each control does.
+As a screen reader user, I want components to expose correct roles, names and states, **so that** I understand what each control does.
 
 **Priority:** Must
 
@@ -62,7 +62,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given an icon-only button, when it is rendered without an accessible name, then the TypeScript types or a dev warning flags the missing name.
 
 ### US-07: Automated accessibility checks
-**As a** Product Team member, **I want** accessibility checks to run automatically on every component, **so that** we keep the target of at least 90% of components passing.
+As a Product Team member, I want accessibility checks to run automatically on every component, **so that** we keep the target of at least 90% of components passing.
 
 **Priority:** Should
 
@@ -71,7 +71,7 @@ Stories follow the personas in the [product brief](product-brief.md). Each story
 - **AC3** Given all public components, when the check completes, then the pass rate is reported as a percentage.
 
 ### US-08: Consistent styling through shared tokens
-**As a** UI/UX Designer, **I want** components to use shared design tokens (colors, spacing, typography), **so that** the shipped UI stays consistent with the design.
+As a UI/UX Designer, I want components to use shared design tokens (colors, spacing, typography), **so that** the shipped UI stays consistent with the design.
 
 **Priority:** Should
 
