@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
 import { Button } from './Button'
 
 const meta = {
@@ -22,6 +23,11 @@ export const Primary: Story = {
   args: {
     children: 'Save changes',
     size: 'md',
+  },
+  play: async ({ canvasElement }) => {
+    const button = within(canvasElement).getByRole('button', { name: 'Save changes' })
+    await userEvent.tab()
+    await expect(button).toHaveFocus()
   },
 }
 
