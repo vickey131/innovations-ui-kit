@@ -41,6 +41,7 @@ export const colors = {
   statusWarningFg: 'var(--color-status-warning-fg)',
   statusDangerBg: 'var(--color-status-danger-bg)',
   statusDangerFg: 'var(--color-status-danger-fg)',
+  overlayBackdrop: 'var(--color-overlay-backdrop)',
 } as const
 
 export const typography = {

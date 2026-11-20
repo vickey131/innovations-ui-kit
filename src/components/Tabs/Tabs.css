@@ -1,0 +1,44 @@
+.tabs {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-primary);
+}
+
+.tabs__list {
+  display: flex;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.tabs__tab {
+  margin: 0 0 -1px;
+  padding: var(--space-2) var(--space-1);
+  border: 0;
+  border-bottom: 2px solid transparent; /* Underline thickness is TBD in UX. */
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--motion-easing),
+    border-color var(--duration-fast) var(--motion-easing);
+}
+
+.tabs__tab--selected {
+  border-bottom-color: var(--color-action-primary);
+  color: var(--color-action-primary);
+}
+
+.tabs__tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tabs__panel {
+  padding: var(--space-4) 0;
+}
+
+.tabs__panel[hidden] {
+  display: none;
+}

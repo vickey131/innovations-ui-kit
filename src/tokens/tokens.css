@@ -37,6 +37,7 @@
   --color-status-warning-fg: var(--amber-600);
   --color-status-danger-bg: var(--red-100);
   --color-status-danger-fg: var(--red-600);
+  --color-overlay-backdrop: rgb(20 23 28 / 50%);
 
   /* Typography, spacing, radius and motion scales from the UX handoff. */
   --font-family-sans: Inter, system-ui, sans-serif;
