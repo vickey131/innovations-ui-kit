@@ -3,6 +3,7 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { expectNoAxeViolations } from '../../test/axe'
 import { describe, expect, it, vi } from 'vitest'
 import { Button } from './Button'
 
@@ -36,5 +37,45 @@ describe('Button', () => {
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
     expect(handleClick).toHaveBeenCalledOnce()
+  })
+
+  it('applies the requested variant class', () => {
+    render(<Button variant="danger">Delete item</Button>)
+
+    expect(screen.getByRole('button', { name: 'Delete item' })).toHaveClass(
+      'button--danger',
+    )
+  })
+
+  it('activates with Enter and Space', async () => {
+    const user = userEvent.setup()
+    const handleClick = vi.fn()
+    render(<Button onClick={handleClick}>Continue</Button>)
+
+    await user.tab()
+    await user.keyboard('{Enter}')
+    await user.keyboard(' ')
+
+    expect(handleClick).toHaveBeenCalledTimes(2)
+  })
+
+  it('does not fire onClick when disabled', async () => {
+    const user = userEvent.setup()
+    const handleClick = vi.fn()
+    render(
+      <Button disabled onClick={handleClick}>
+        Continue
+      </Button>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }))
+
+    expect(handleClick).not.toHaveBeenCalled()
+  })
+
+  it('has no accessibility violations', async () => {
+    const { container } = render(<Button>Save changes</Button>)
+
+    await expectNoAxeViolations(container)
   })
 })
