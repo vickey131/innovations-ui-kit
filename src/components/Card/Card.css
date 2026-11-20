@@ -1,0 +1,57 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); /* Header/footer spacing and dividers are TBD in UX. */
+  box-sizing: border-box;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+  box-shadow: var(--shadow-1);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.card__title {
+  min-width: 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.card__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.card__footer {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.card--clickable {
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow var(--duration-fast) var(--motion-easing);
+}
+
+.card--clickable:hover {
+  box-shadow: var(--shadow-2);
+}
+
+.card--clickable:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
