@@ -1,15 +1,15 @@
-import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { useDisclosure } from '../../hooks/useDisclosure'
 import { Button } from '../Button'
 import { Modal } from './Modal'
 import type { ModalProps } from './Modal'
 
 function ModalDemo(args: ModalProps) {
-  const [open, setOpen] = useState(args.open)
+  const { isOpen, open, close } = useDisclosure(args.open)
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open modal</Button>
-      <Modal {...args} open={open} onClose={() => setOpen(false)} />
+      <Button onClick={open}>Open modal</Button>
+      <Modal {...args} open={isOpen} onClose={close} />
     </>
   )
 }
