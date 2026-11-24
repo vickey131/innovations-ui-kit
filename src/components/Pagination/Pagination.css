@@ -1,0 +1,67 @@
+.pagination__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__button,
+.pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.pagination__button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pagination__button--current {
+  background: var(--color-action-primary);
+  color: var(--color-bg-surface);
+}
+
+.pagination__button:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.pagination__button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Heights match Button: sm 32px, md 40px. */
+.pagination--sm .pagination__button,
+.pagination--sm .pagination__ellipsis {
+  min-width: 32px;
+  min-height: 32px;
+  padding-inline: var(--space-3);
+}
+
+.pagination--md .pagination__button,
+.pagination--md .pagination__ellipsis {
+  min-width: 40px;
+  min-height: 40px;
+  padding-inline: var(--space-4);
+}
+
+/* Below md, Previous and Next show only their icon (the aria-label stays). */
+@media (max-width: 767px) {
+  .pagination__text {
+    display: none;
+  }
+}
