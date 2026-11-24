@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
 import { Tabs } from './Tabs'
 import type { TabsProps } from './Tabs'
 
@@ -52,7 +53,18 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('tab', { name: 'Profile' }))
+    await userEvent.keyboard('{ArrowRight}')
+    await expect(canvas.getByRole('tab', { name: 'Billing' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(canvas.getByRole('tabpanel')).toHaveTextContent('Manage your plan and invoices.')
+  },
+}
 
 export const DefaultSelection: Story = {
   args: { defaultValue: 'billing' },

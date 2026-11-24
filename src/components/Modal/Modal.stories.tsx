@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
 import { useDisclosure } from '../../hooks/useDisclosure'
 import { Button } from '../Button'
 import { Modal } from './Modal'
@@ -44,7 +45,17 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const opener = within(canvasElement).getByRole('button', { name: 'Open modal' })
+    await userEvent.click(opener)
+    const body = within(document.body)
+    await expect(body.getByRole('dialog', { name: 'Edit profile' })).toHaveFocus()
+    await userEvent.keyboard('{Escape}')
+    await expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    await expect(opener).toHaveFocus()
+  },
+}
 
 export const Small: Story = { args: { size: 'sm' } }
 

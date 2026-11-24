@@ -59,12 +59,26 @@ describe('Select', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(
+    const { container, rerender } = render(
       <Select label="Role" hint="Controls what you can edit.">
         {options}
       </Select>,
     )
 
+    await expectNoAxeViolations(container)
+
+    rerender(
+      <Select label="Role" required error="Choose a role.">
+        {options}
+      </Select>,
+    )
+    await expectNoAxeViolations(container)
+
+    rerender(
+      <Select label="Role" disabled>
+        {options}
+      </Select>,
+    )
     await expectNoAxeViolations(container)
   })
 })

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
 import { Select } from './Select'
 
 const meta = {
@@ -26,7 +27,13 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const select = within(canvasElement).getByRole('combobox', { name: 'Role' })
+    await userEvent.selectOptions(select, 'editor')
+    await expect(select).toHaveValue('editor')
+  },
+}
 
 export const WithHint: Story = {
   args: { hint: 'Your role controls what you can edit.' },
@@ -39,6 +46,11 @@ export const Required: Story = {
 export const ErrorState: Story = {
   name: 'Error',
   args: { required: true, error: 'Choose a role to continue.' },
+  play: async ({ canvasElement }) => {
+    const select = within(canvasElement).getByRole('combobox', { name: /Role/ })
+    await expect(select).toHaveAttribute('aria-invalid', 'true')
+    await expect(select).toHaveAccessibleDescription('Choose a role to continue.')
+  },
 }
 
 export const Disabled: Story = {
