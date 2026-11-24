@@ -18,7 +18,7 @@ Legend: **Confirmed** = stated in the spec. **TBD** = marked TBD, or missing fro
 | Variants | `primary`, `secondary` (outlined), `ghost`, `danger` |
 | Sizes | `sm` 32px, `md` 40px, `lg` 48px (height) |
 | States | default, hover, active, focus-visible, disabled, loading |
-| Other | Optional leading icon |
+| Other | Optional leading icon |.
 
 TBD:
 - Loading: spinner replaces the label or sits beside it (spec says TBD).

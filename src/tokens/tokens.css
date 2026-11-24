@@ -71,3 +71,42 @@
   --duration-base: 200ms;
   --motion-easing: cubic-bezier(0.2, 0, 0, 1);
 }
+
+/* Dark theme: remaps semantic tokens to existing primitives. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg-canvas: var(--gray-900);
+    --color-bg-surface: var(--gray-700);
+    --color-text-primary: var(--gray-0);
+    --color-text-secondary: var(--gray-300);
+    --color-border-default: var(--gray-500);
+    --color-action-primary: var(--blue-100);
+    --color-action-primary-hover: var(--blue-50);
+    --color-action-primary-active: var(--gray-0);
+    --color-focus-ring: var(--blue-100);
+    --color-status-success-bg: var(--gray-900);
+    --color-status-success-fg: var(--green-100);
+    --color-status-warning-bg: var(--gray-900);
+    --color-status-warning-fg: var(--amber-100);
+    --color-status-danger-bg: var(--gray-900);
+    --color-status-danger-fg: var(--red-100);
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg-canvas: var(--gray-900);
+  --color-bg-surface: var(--gray-700);
+  --color-text-primary: var(--gray-0);
+  --color-text-secondary: var(--gray-300);
+  --color-border-default: var(--gray-500);
+  --color-action-primary: var(--blue-100);
+  --color-action-primary-hover: var(--blue-50);
+  --color-action-primary-active: var(--gray-0);
+  --color-focus-ring: var(--blue-100);
+  --color-status-success-bg: var(--gray-900);
+  --color-status-success-fg: var(--green-100);
+  --color-status-warning-bg: var(--gray-900);
+  --color-status-warning-fg: var(--amber-100);
+  --color-status-danger-bg: var(--gray-900);
+  --color-status-danger-fg: var(--red-100);
+}
