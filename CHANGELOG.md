@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- `Pagination`: controlled page navigation (`page`, `pageCount`, `onPageChange`) with optional `siblingCount` (default 1), `boundaryCount` (default 1), `size` (`sm` or `md`) and `disabled`. Shows Previous, Next and page buttons with ellipses; the current page has `aria-current="page"`. Previous and Next are icon-only below 768px and keep their accessible names. Input guards: a `pageCount` that is below 1 or not finite renders nothing and fractions are floored; a `page` that is not finite becomes 1, otherwise it is floored and clamped to the valid range; negative counts become 0, fractions are floored and non-finite counts use the default 1.
+
 ## 1.0.0 - 2026-11-24
 
 ### Breaking changes
