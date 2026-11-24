@@ -1,10 +1,33 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TextField } from './TextField'
 
+const guidance = [
+  '## Usage guidelines',
+  '',
+  '- Use for single-line text input. The label is always shown above the input.',
+  '- Use `hint` for format help. An `error` replaces the hint. `showCounter` needs `maxLength`.',
+  '',
+  "## Do and don't",
+  '',
+  '- **Do:** write the `label` in sentence case.',
+  '- **Do:** make an `error` say what to do, such as "Enter at least 3 characters."',
+  "- **Don't:** use `placeholder` as a replacement for the label.",
+  "- **Don't:** set `showCounter` without `maxLength`: no counter is shown.",
+  '',
+  '## Accessibility',
+  '',
+  '- The label is linked to the input, so clicking it focuses the input and screen readers announce it.',
+  '- `hint` or `error`, and the counter, are linked with `aria-describedby`. An `error` sets `aria-invalid`.',
+  '- `required` sets the native attribute. The * in the label is hidden from assistive technology, and its screen-reader text is an open UX question.',
+].join('\n')
+
 const meta = {
   title: 'Components/TextField',
   component: TextField,
   tags: ['autodocs'],
+  parameters: {
+    docs: { description: { component: guidance } },
+  },
   argTypes: {
     disabled: { control: 'boolean' },
     readOnly: { control: 'boolean' },

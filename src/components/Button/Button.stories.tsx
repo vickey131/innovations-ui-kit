@@ -2,10 +2,33 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, userEvent, within } from 'storybook/test'
 import { Button } from './Button'
 
+const guidance = [
+  '## Usage guidelines',
+  '',
+  '- Use for actions on the current page, such as saving or submitting. For navigation, use a link or a clickable Card.',
+  '- Only `primary` is styled today. `secondary`, `ghost` and `danger` currently look like `primary` until UX specifies them.',
+  '',
+  "## Do and don't",
+  '',
+  '- **Do:** use a short verb label in sentence case, such as "Save changes".',
+  '- **Do:** use `leadingIcon` to support the label, and `disabled` when the action is unavailable.',
+  "- **Don't:** use a Button to navigate to another page.",
+  "- **Don't:** rely on the `secondary`, `ghost` or `danger` look to show meaning yet.",
+  '',
+  '## Accessibility',
+  '',
+  '- Renders a native `button` with `type="button"` by default. Enter and Space activate it and it is in the Tab order.',
+  '- `leadingIcon` is hidden from assistive technology, so the visible label is the accessible name. A label is always required.',
+  '- A disabled button uses the native `disabled` attribute, so it is not focusable. The accessible name for icon-only buttons is an open UX question (Q2).',
+].join('\n')
+
 const meta = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
+  parameters: {
+    docs: { description: { component: guidance } },
+  },
   argTypes: {
     variant: {
       control: 'inline-radio',

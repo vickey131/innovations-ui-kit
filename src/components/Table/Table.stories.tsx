@@ -43,6 +43,26 @@ const columns: TableColumn<Member>[] = [
   },
 ]
 
+const guidance = [
+  '## Usage guidelines',
+  '',
+  '- Use for tabular data with optional sorting and row selection. A `caption` and a unique `getRowKey` are required.',
+  '- Sort is uncontrolled by default. If you pass `sort`, you must sort the rows yourself.',
+  '',
+  "## Do and don't",
+  '',
+  '- **Do:** give the table a `caption`: it is its accessible name.',
+  '- **Do:** set `compare` on columns with dates or other non-string values, and `getRowLabel` to name each row checkbox.',
+  "- **Don't:** expect sorting to use the rendered cell: it reads `row[key]`, not `render`.",
+  "- **Don't:** pass a controlled `sort` without sorting the rows: the table will not reorder them.",
+  '',
+  '## Accessibility',
+  '',
+  '- Renders a real `table` with a caption and `scope="col"` headers. Sortable headers are buttons, and the sorted column has `aria-sort`.',
+  '- The wrapper is a focusable region named by the caption, so keyboard users can scroll a wide table.',
+  '- With `selectable`, each row checkbox is named "Select row N" unless you set `getRowLabel`. The header checkbox "Select all rows" covers the rows shown and shows a mixed state.',
+].join('\n')
+
 const meta = {
   title: 'Components/Table',
   component: Table<Member>,
@@ -51,7 +71,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Open UX questions: whether a third sort click returns to unsorted (Q9, today it returns to ascending); layout below 768px (Q10, today the table scrolls horizontally); row hover and selected styling (no semantic tokens); header background, sticky header, loading state, bulk-action UI; pagination (select all applies to the rows shown); empty-state illustration asset; arrow glyphs; how sort is announced beyond `aria-sort`.',
+          'Open UX questions: whether a third sort click returns to unsorted (Q9, today it returns to ascending); layout below 768px (Q10, today the table scrolls horizontally); row hover and selected styling (no semantic tokens); header background, sticky header, loading state, bulk-action UI; pagination (select all applies to the rows shown); empty-state illustration asset; arrow glyphs; how sort is announced beyond `aria-sort`.\n\n' + guidance,
       },
     },
   },
