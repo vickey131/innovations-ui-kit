@@ -1,4 +1,5 @@
 import './App.css'
+import Gallery from './Gallery'
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
       <p className="app__note">
         Run <code>npm run storybook</code> first if the link does not load.
       </p>
+
+      <Gallery />
     </main>
   )
 }

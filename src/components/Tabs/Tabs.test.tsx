@@ -4,10 +4,18 @@ import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { expectNoAxeViolations } from '../../test/axe'
 import { Tabs } from './Tabs'
-import type { TabItem } from './Tabs'
+import type { TabsProps } from './Tabs'
+
+interface TabItem {
+  id: string
+  label: ReactNode
+  panel: ReactNode
+  disabled?: boolean
+}
 
 const tabs: TabItem[] = [
   { id: 'profile', label: 'Profile', panel: 'Profile content' },
@@ -21,9 +29,31 @@ const withDisabledMiddle: TabItem[] = [
   tabs[2],
 ]
 
+function TabsFixture({
+  items,
+  ...props
+}: { items: TabItem[] } & Omit<TabsProps, 'children'>) {
+  return (
+    <Tabs {...props}>
+      <Tabs.List aria-label="Settings">
+        {items.map((item) => (
+          <Tabs.Tab key={item.id} value={item.id} disabled={item.disabled}>
+            {item.label}
+          </Tabs.Tab>
+        ))}
+      </Tabs.List>
+      {items.map((item) => (
+        <Tabs.Panel key={item.id} value={item.id}>
+          {item.panel}
+        </Tabs.Panel>
+      ))}
+    </Tabs>
+  )
+}
+
 describe('Tabs', () => {
   it('renders tab roles, selects the first tab and shows only its panel', () => {
-    render(<Tabs tabs={tabs} aria-label="Settings" />)
+    render(<TabsFixture items={tabs} />)
 
     expect(screen.getByRole('tablist', { name: 'Settings' })).toBeInTheDocument()
     expect(screen.getAllByRole('tab')).toHaveLength(3)
@@ -34,7 +64,7 @@ describe('Tabs', () => {
   })
 
   it('uses a roving tabIndex', () => {
-    render(<Tabs tabs={tabs} aria-label="Settings" />)
+    render(<TabsFixture items={tabs} />)
 
     expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('tabindex', '0')
     expect(screen.getByRole('tab', { name: 'Billing' })).toHaveAttribute('tabindex', '-1')
@@ -43,7 +73,7 @@ describe('Tabs', () => {
 
   it('moves focus and selection with the arrow keys and wraps around', async () => {
     const user = userEvent.setup()
-    render(<Tabs tabs={tabs} aria-label="Settings" />)
+    render(<TabsFixture items={tabs} />)
 
     await user.tab()
     expect(screen.getByRole('tab', { name: 'Profile' })).toHaveFocus()
@@ -64,7 +94,7 @@ describe('Tabs', () => {
 
   it('jumps to the first and last tab with Home and End', async () => {
     const user = userEvent.setup()
-    render(<Tabs tabs={tabs} defaultValue="billing" aria-label="Settings" />)
+    render(<TabsFixture items={tabs} defaultValue="billing" />)
 
     await user.tab()
     await user.keyboard('{End}')
@@ -76,7 +106,7 @@ describe('Tabs', () => {
 
   it('selects a tab with a click', async () => {
     const user = userEvent.setup()
-    render(<Tabs tabs={tabs} aria-label="Settings" />)
+    render(<TabsFixture items={tabs} />)
 
     await user.click(screen.getByRole('tab', { name: 'Team' }))
 
@@ -85,7 +115,7 @@ describe('Tabs', () => {
 
   it('skips disabled tabs with the keyboard', async () => {
     const user = userEvent.setup()
-    render(<Tabs tabs={withDisabledMiddle} aria-label="Settings" />)
+    render(<TabsFixture items={withDisabledMiddle} />)
 
     await user.tab()
     await user.keyboard('{ArrowRight}')
@@ -95,13 +125,13 @@ describe('Tabs', () => {
   })
 
   it('falls back to the first enabled tab when defaultValue is unknown', () => {
-    render(<Tabs tabs={tabs} defaultValue="missing" aria-label="Settings" />)
+    render(<TabsFixture items={tabs} defaultValue="missing" />)
 
     expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('aria-selected', 'true')
   })
 
   it('falls back to the first enabled tab when the value is a disabled tab', () => {
-    render(<Tabs tabs={withDisabledMiddle} value="billing" aria-label="Settings" />)
+    render(<TabsFixture items={withDisabledMiddle} value="billing" />)
 
     expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('tabindex', '0')
@@ -109,7 +139,7 @@ describe('Tabs', () => {
 
   it('skips a disabled first tab when falling back', () => {
     const items = [{ ...tabs[0], disabled: true }, tabs[1]]
-    render(<Tabs tabs={items} aria-label="Settings" />)
+    render(<TabsFixture items={items} />)
 
     expect(screen.getByRole('tab', { name: 'Billing' })).toHaveAttribute('aria-selected', 'true')
   })
@@ -117,7 +147,7 @@ describe('Tabs', () => {
   it('has no selected tab, panel or focus target when all tabs are disabled', async () => {
     const user = userEvent.setup()
     const items = tabs.map((tab) => ({ ...tab, disabled: true }))
-    render(<Tabs tabs={items} aria-label="Settings" />)
+    render(<TabsFixture items={items} />)
 
     for (const tab of screen.getAllByRole('tab')) {
       expect(tab).toBeDisabled()
@@ -131,7 +161,7 @@ describe('Tabs', () => {
   })
 
   it('renders an empty tab list without tabs', () => {
-    render(<Tabs tabs={[]} aria-label="Settings" />)
+    render(<TabsFixture items={[]} />)
 
     expect(screen.getByRole('tablist')).toBeInTheDocument()
     expect(screen.queryByRole('tab')).not.toBeInTheDocument()
@@ -144,14 +174,13 @@ describe('Tabs', () => {
     function Controlled() {
       const [value, setValue] = useState('profile')
       return (
-        <Tabs
-          tabs={tabs}
+        <TabsFixture
+          items={tabs}
           value={value}
           onValueChange={(id) => {
             onValueChange(id)
             setValue(id)
           }}
-          aria-label="Settings"
         />
       )
     }
@@ -167,7 +196,7 @@ describe('Tabs', () => {
   it('stays on the controlled value until the parent updates it', async () => {
     const user = userEvent.setup()
     const onValueChange = vi.fn()
-    render(<Tabs tabs={tabs} value="profile" onValueChange={onValueChange} aria-label="Settings" />)
+    render(<TabsFixture items={tabs} value="profile" onValueChange={onValueChange} />)
 
     await user.click(screen.getByRole('tab', { name: 'Team' }))
 
@@ -176,7 +205,7 @@ describe('Tabs', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Tabs tabs={withDisabledMiddle} aria-label="Settings" />)
+    const { container } = render(<TabsFixture items={withDisabledMiddle} />)
 
     await expectNoAxeViolations(container)
   })

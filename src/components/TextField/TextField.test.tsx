@@ -66,10 +66,13 @@ describe('TextField', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(
+    const { container, rerender } = render(
       <TextField label="Profile name" hint="Shown on your profile." />,
     )
 
+    await expectNoAxeViolations(container)
+
+    rerender(<TextField label="Profile name" error="Enter a profile name." />)
     await expectNoAxeViolations(container)
   })
 })

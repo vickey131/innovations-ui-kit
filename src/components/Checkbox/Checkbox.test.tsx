@@ -58,8 +58,14 @@ describe('Checkbox', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Checkbox label="Email notifications" />)
+    const { container, rerender } = render(<Checkbox label="Email notifications" />)
 
+    await expectNoAxeViolations(container)
+
+    rerender(<Checkbox label="Email notifications" error="Select this option to continue." />)
+    await expectNoAxeViolations(container)
+
+    rerender(<Checkbox label="Email notifications" disabled />)
     await expectNoAxeViolations(container)
   })
 })

@@ -18,6 +18,9 @@ export { Checkbox } from './components/Checkbox'
 export type { CheckboxProps } from './components/Checkbox'
 export { Modal } from './components/Modal'
 export type { ModalProps, ModalSize } from './components/Modal'
+export { Pagination } from './components/Pagination'
+export type { PaginationProps, PaginationSize } from './components/Pagination'
+export { useDisclosure } from './hooks/useDisclosure'
 export { Select } from './components/Select'
 export type { SelectProps } from './components/Select'
 export { Table } from './components/Table'
@@ -28,6 +31,11 @@ export type {
   TableSort,
 } from './components/Table'
 export { Tabs } from './components/Tabs'
-export type { TabItem, TabsProps } from './components/Tabs'
+export type {
+  TabProps,
+  TabsListProps,
+  TabsPanelProps,
+  TabsProps,
+} from './components/Tabs'
 export { TextField } from './components/TextField'
 export type { TextFieldProps } from './components/TextField'

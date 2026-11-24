@@ -3,27 +3,27 @@
 import '@testing-library/jest-dom/vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
+import { useDisclosure } from '../../hooks/useDisclosure'
 import { expectNoAxeViolations } from '../../test/axe'
 import { Button } from '../Button'
 import { Modal } from './Modal'
 
 function Harness({ withFooter = true }: { withFooter?: boolean }) {
-  const [open, setOpen] = useState(false)
+  const { isOpen, open, close } = useDisclosure()
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)}>
+      <button type="button" onClick={open}>
         Open modal
       </button>
       <Modal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isOpen}
+        onClose={close}
         title="Edit profile"
         footer={
           withFooter ? (
             <>
-              <Button onClick={() => setOpen(false)}>Cancel</Button>
+              <Button onClick={close}>Cancel</Button>
               <Button>Save</Button>
             </>
           ) : undefined

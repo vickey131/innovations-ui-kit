@@ -1,18 +1,39 @@
-import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
+import { useDisclosure } from '../../hooks/useDisclosure'
 import { Button } from '../Button'
 import { Modal } from './Modal'
 import type { ModalProps } from './Modal'
 
 function ModalDemo(args: ModalProps) {
-  const [open, setOpen] = useState(args.open)
+  const { isOpen, open, close } = useDisclosure(args.open)
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open modal</Button>
-      <Modal {...args} open={open} onClose={() => setOpen(false)} />
+      <Button onClick={open}>Open modal</Button>
+      <Modal {...args} open={isOpen} onClose={close} />
     </>
   )
 }
+
+const guidance = [
+  '## Usage guidelines',
+  '',
+  '- Use for a focused task or confirmation that must interrupt the page. It is controlled: pass `open` and update it in `onClose`.',
+  '- Put actions in `footer`, with the primary action last.',
+  '',
+  "## Do and don't",
+  '',
+  '- **Do:** give the modal a clear `title`: it is also the dialog name.',
+  '- **Do:** close it in `onClose` so both Escape and the close button work.',
+  "- **Don't:** use a Modal for passive messages: use an Alert.",
+  "- **Don't:** rely on clicking the overlay to close it: that is off for now.",
+  '',
+  '## Accessibility',
+  '',
+  '- Renders `role="dialog"` with `aria-modal="true"`, named by the title through `aria-labelledby`.',
+  '- Tab and Shift+Tab stay inside the dialog, and Escape calls `onClose`.',
+  '- Focus moves to the dialog when it opens and returns to the opener when it closes. The close button is named by `closeLabel` (default "Close").',
+].join('\n')
 
 const meta = {
   title: 'Components/Modal',
@@ -22,7 +43,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Traps Tab inside the dialog, closes on Escape and returns focus to the opener. Open UX questions (Q7): closing on overlay click (off for now), initial focus (the dialog container for now), body scroll lock, open/close animation, and a long footer on small screens.',
+          'Traps Tab inside the dialog, closes on Escape and returns focus to the opener. Open UX questions (Q7): closing on overlay click (off for now), initial focus (the dialog container for now), body scroll lock, open/close animation, and a long footer on small screens.\n\n' + guidance,
       },
     },
   },
@@ -44,7 +65,17 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const opener = within(canvasElement).getByRole('button', { name: 'Open modal' })
+    await userEvent.click(opener)
+    const body = within(document.body)
+    await expect(body.getByRole('dialog', { name: 'Edit profile' })).toHaveFocus()
+    await userEvent.keyboard('{Escape}')
+    await expect(body.queryByRole('dialog')).not.toBeInTheDocument()
+    await expect(opener).toHaveFocus()
+  },
+}
 
 export const Small: Story = { args: { size: 'sm' } }
 

@@ -74,8 +74,11 @@ describe('Button', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Button>Save changes</Button>)
+    const { container, rerender } = render(<Button>Save changes</Button>)
 
+    await expectNoAxeViolations(container)
+
+    rerender(<Button disabled>Save changes</Button>)
     await expectNoAxeViolations(container)
   })
 })

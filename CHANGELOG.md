@@ -3,12 +3,34 @@
 ## Unreleased
 
 ### Added
+- `Pagination`: controlled page navigation (`page`, `pageCount`, `onPageChange`) with optional `siblingCount` (default 1), `boundaryCount` (default 1), `size` (`sm` or `md`) and `disabled`. Shows Previous, Next and page buttons with ellipses; the current page has `aria-current="page"`. Previous and Next are icon-only below 768px and keep their accessible names. Input guards: a `pageCount` that is below 1 or not finite renders nothing and fractions are floored; a `page` that is not finite becomes 1, otherwise it is floored and clamped to the valid range; negative counts become 0, fractions are floored and non-finite counts use the default 1.
+
+## 1.0.0 - 2026-11-24
+
+### Breaking changes
+- `Tabs`: now a compound component. The `tabs` prop and the `TabItem` type are removed. Build the tabs from `Tabs.List`, `Tabs.Tab` and `Tabs.Panel`, matched by `value`. `aria-label` moves from `Tabs` to `Tabs.List`. New exported types: `TabProps`, `TabsListProps`, `TabsPanelProps`.
+
+  ```tsx
+  // Before
+  <Tabs tabs={[{ id: 'a', label: 'A', panel: 'Panel A' }]} aria-label="Settings" />
+
+  // After
+  <Tabs defaultValue="a">
+    <Tabs.List aria-label="Settings"><Tabs.Tab value="a">A</Tabs.Tab></Tabs.List>
+    <Tabs.Panel value="a">Panel A</Tabs.Panel>
+  </Tabs>
+  ```
+
+### Added
 - `Modal`: focus trap, focus restoration to the opener on close, Escape to close, sizes sm/md/lg, full-screen below 768px.
 - `Tabs`: arrow-key, Home and End navigation with roving `tabIndex` and automatic activation. A missing or disabled value falls back to the first enabled tab. When every tab is disabled nothing is selected and no tab is focusable.
 - `Alert`: success, warning and danger tones, optional title and dismiss button. `role` is `status` by default and `alert` for danger, and can be overridden.
 - `Card`: surface with optional header, header actions and footer. Passing `href` makes the whole card a link; `href` and `headerActions` cannot be combined, and a clickable card must not contain interactive content.
 - `Table`: sortable columns with `aria-sort` set only on the sorted header, sorting by the underlying `row[key]` value (strings and numbers by default, custom `compare` for other types, null and undefined last in both directions, ties keep original order), optional row selection with a select-all checkbox, empty state, and horizontal scroll on small screens.
 - Token `--color-overlay-backdrop` (from the UX handoff) for the modal backdrop.
+- `useDisclosure` hook (`isOpen`, `open`, `close`, `toggle`).
+- Light and dark themes: semantic tokens are remapped under `prefers-color-scheme: dark` and `[data-theme='dark']`.
+- Storybook play functions for the Button, Modal, Select and Tabs stories, and added axe checks in component tests.
 
 ### Open UX questions
 - Modal (Q7): overlay-click close (off), initial focus (dialog container), body scroll lock, animation, long footer on small screens, close button label.
