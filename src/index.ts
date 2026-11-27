@@ -1,3 +1,5 @@
+import './index.css'
+
 export { Alert } from './components/Alert'
 export type { AlertProps, AlertRole, AlertTone } from './components/Alert'
 export { Badge } from './components/Badge'
